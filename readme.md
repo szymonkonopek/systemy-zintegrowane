@@ -22,5 +22,5 @@
 - `nails` 🪛
 - `wooden_construction_elements` 🪵
 - `frame` 🖼️
-- `carpentry` 🛋️
+- `upholstery` 🛋️
 - `chairs` 🪑

@@ -20,7 +20,7 @@
     "level": 1,
     "required_elements": 1
   },
-  "carpentry": {
+  "upholstery": {
     "waiting_time_in_weeks": 4,
     "initial_quantity": 0,
     "units_per_batch": 30,
