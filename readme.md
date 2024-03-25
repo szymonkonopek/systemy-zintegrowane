@@ -24,3 +24,11 @@
 - `frame` 🖼️
 - `upholstery` 🛋️
 - `chairs` 🪑
+
+|                                        |                                          |
+| :------------------------------------: | :--------------------------------------: |
+| ![alt text](./images/cat-delivery.png) | ![alt text](./images/cat-production.png) |
+
+|                                     |                                        |
+| :---------------------------------: | :------------------------------------: |
+| ![alt text](./images/cat-store.png) | ![alt text](./images/cat-business.png) |
