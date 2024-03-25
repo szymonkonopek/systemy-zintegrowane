@@ -1,0 +1,30 @@
+{
+  "orders": [
+    {
+      "week": 1,
+      "orders": 0
+    },
+    {
+      "week": 2,
+      "orders": 10
+    },
+    {
+      "week": 3,
+      "orders": 20
+    },
+    {
+      "week": 4,
+      "orders": 30
+    },
+    {
+      "week": 5,
+      "orders": 40
+    },
+    {
+      "week": 6,
+      "orders": 50
+    }
+  ]
+}
+
+// orders is an array of objects with week and orders properties

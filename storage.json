@@ -1,0 +1,36 @@
+{
+  "nails": {
+    "waiting_time_in_weeks": 1,
+    "initial_quantity": 0,
+    "units_per_batch": 600,
+    "level": 2,
+    "required_elements": 20
+  },
+  "wooden_construction_elements": {
+    "waiting_time_in_weeks": 2,
+    "initial_quantity": 0,
+    "units_per_batch": 30,
+    "level": 2,
+    "required_elements": 14
+  },
+  "frame": {
+    "waiting_time_in_weeks": 3,
+    "initial_quantity": 0,
+    "units_per_batch": 30,
+    "level": 1,
+    "required_elements": 1
+  },
+  "carpentry": {
+    "waiting_time_in_weeks": 4,
+    "initial_quantity": 0,
+    "units_per_batch": 30,
+    "level": 1,
+    "required_elements": 2
+  },
+  "chairs": {
+    "waiting_time_in_weeks": 1,
+    "initial_quantity": 0,
+    "units_per_batch": 30,
+    "level": 0
+  }
+}
