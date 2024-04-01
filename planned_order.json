@@ -6,25 +6,39 @@
     },
     {
       "week": 2,
-      "orders": 10
+      "orders": 0
     },
     {
       "week": 3,
-      "orders": 20
+      "orders": 0
     },
     {
       "week": 4,
-      "orders": 30
+      "orders": 20
     },
     {
       "week": 5,
-      "orders": 40
+      "orders": 0
     },
     {
       "week": 6,
-      "orders": 50
+      "orders": 40
+    },
+    {
+      "week": 7,
+      "orders": 0
+    },
+    {
+      "week": 8,
+      "orders": 0
+    },
+    {
+      "week": 9,
+      "orders": 0
+    },
+    {
+      "week": 10,
+      "orders": 0
     }
   ]
 }
-
-// orders is an array of objects with week and orders properties
