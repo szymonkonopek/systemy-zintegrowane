@@ -29,7 +29,7 @@
   },
   "chairs": {
     "waiting_time_in_weeks": 1,
-    "initial_quantity": 2,
+    "initial_quantity": 10,
     "units_per_batch": 30,
     "level": 0,
     "required_elements": null
