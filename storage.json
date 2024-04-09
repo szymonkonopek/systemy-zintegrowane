@@ -20,16 +20,16 @@
     "level": 1,
     "required_elements": 1
   },
-  "upholstery": {
-    "waiting_time_in_weeks": 4,
-    "initial_quantity": 0,
-    "units_per_batch": 30,
+  "padding": {
+    "waiting_time_in_weeks": 3,
+    "initial_quantity": 22,
+    "units_per_batch": 40,
     "level": 1,
     "required_elements": 2
   },
   "chairs": {
     "waiting_time_in_weeks": 1,
-    "initial_quantity": 10,
+    "initial_quantity": 2,
     "units_per_batch": 30,
     "level": 0,
     "required_elements": null

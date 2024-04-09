@@ -1,0 +1,92 @@
+[
+  {
+    "week": 1,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 5,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 2,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 5,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 3,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 5,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 4,
+    "gross_requirements": 28,
+    "scheduled_receipts": 0,
+    "on_hand": 5,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 5,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 6,
+    "gross_requirements": 30,
+    "scheduled_receipts": 0,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 7,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 8,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 9,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  },
+  {
+    "week": 10,
+    "gross_requirements": 0,
+    "scheduled_receipts": 0,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
+  }
+]

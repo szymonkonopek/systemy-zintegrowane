@@ -2,61 +2,61 @@
   "orders": [
     {
       "week": 1,
-      "orders": 0,
-      "planned_production": 20,
-      "on_hand": 30
+      "demand": 0,
+      "planned_production": 0,
+      "on_hand": 2
     },
     {
       "week": 2,
-      "orders": 0,
+      "demand": 0,
       "planned_production": 0,
-      "on_hand": 30
+      "on_hand": 2
     },
     {
       "week": 3,
-      "orders": 0,
+      "demand": 0,
       "planned_production": 0,
-      "on_hand": 30
+      "on_hand": 2
     },
     {
       "week": 4,
-      "orders": 20,
-      "planned_production": 10,
-      "on_hand": 20
+      "demand": 0,
+      "planned_production": 0,
+      "on_hand": 2
     },
     {
       "week": 5,
-      "orders": 0,
-      "planned_production": 0,
-      "on_hand": 20
+      "demand": 20,
+      "planned_production": 28,
+      "on_hand": 10
     },
     {
       "week": 6,
-      "orders": 40,
-      "planned_production": 20,
-      "on_hand": 0
+      "demand": 0,
+      "planned_production": 0,
+      "on_hand": 10
     },
     {
       "week": 7,
-      "orders": 8,
-      "planned_production": 8,
+      "demand": 40,
+      "planned_production": 30,
       "on_hand": 0
     },
     {
       "week": 8,
-      "orders": 0,
+      "demand": 0,
       "planned_production": 0,
       "on_hand": 0
     },
     {
       "week": 9,
-      "orders": 0,
+      "demand": 0,
       "planned_production": 0,
       "on_hand": 0
     },
     {
       "week": 10,
-      "orders": 0,
+      "demand": 0,
       "planned_production": 0,
       "on_hand": 0
     }
