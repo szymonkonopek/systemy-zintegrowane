@@ -27,7 +27,7 @@
     {
       "week": 5,
       "demand": 20,
-      "planned_production" : 28,
+      "planned_production" : 0,
       "on_hand" : 0
     },
     {
@@ -39,7 +39,7 @@
     {
       "week": 7,
       "demand": 40,
-      "planned_production" : 30,
+      "planned_production" : 0,
       "on_hand" : 0
     },
     {

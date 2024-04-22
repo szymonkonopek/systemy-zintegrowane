@@ -112,3 +112,4 @@ def ghp():
     transposed_df = data_pd_df.transpose()
     print("Final GHP structure:")
     print(transposed_df.to_string(header=False))
+    print("")
