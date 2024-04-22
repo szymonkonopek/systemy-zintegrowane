@@ -69,12 +69,12 @@ def mrp(storageElementParentName, mrpObjectNameChild):
         # 4 
         elif fillOrder:
             fillOrder = False
-            weekDataMrp['net_requirements'] = weekDataMrp['gross_requirements'] - mrpOrders[weekDataMrpIndex - 1]['on_hand']
             index = weekDataMrpIndex - storageElementChild['waiting_time_in_weeks']
 
-            if weekDataMrp['on_hand'] <= weekDataMrp['gross_requirements']:
+            if mrpOrders[weekDataMrpIndex - 1]['on_hand'] <= weekDataMrp['gross_requirements']:
                 weekDataMrp['on_hand'] = mrpOrders[weekDataMrpIndex - 1]['on_hand'] - weekDataMrp['gross_requirements']
-                
+                weekDataMrp['net_requirements'] = weekDataMrp['gross_requirements'] - mrpOrders[weekDataMrpIndex - 1]['on_hand']
+
             # else:
                 weekDataMrp['planned_order_receipts'] = storageElementChild['units_per_batch']
                 mrpOrders[index]['planned_order_releases'] = storageElementChild['units_per_batch']
@@ -88,7 +88,6 @@ def mrp(storageElementParentName, mrpObjectNameChild):
             weekDataMrp['net_requirements'] = weekDataMrp['gross_requirements'] - mrpOrders[weekDataMrpIndex - 1]['on_hand']
             weekDataMrp['planned_order_receipts'] = storageElementChild['units_per_batch']
             index = weekDataMrpIndex - storageElementChild['waiting_time_in_weeks']
-            print('index', index)
             if index < 0:
                 raise Exception("Sorry production is not available in the past 😱")
             mrpOrders[index]['planned_order_releases'] = storageElementChild['units_per_batch']
