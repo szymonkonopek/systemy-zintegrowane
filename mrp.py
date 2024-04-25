@@ -88,14 +88,31 @@ def mrp(storageElementParentName, mrpObjectNameChild):
             weekDataMrp['net_requirements'] = weekDataMrp['gross_requirements'] - mrpOrders[weekDataMrpIndex - 1]['on_hand']
             weekDataMrp['planned_order_receipts'] = storageElementChild['units_per_batch']
             index = weekDataMrpIndex - storageElementChild['waiting_time_in_weeks']
-            if index < 0:
-                raise Exception("Sorry production is not available in the past 😱")
+            # if index < 0:
+            #     raise Exception("Sorry production is not available in the past 😱")
             mrpOrders[index]['planned_order_releases'] = storageElementChild['units_per_batch']
             weekDataMrp['on_hand'] = weekDataMrp['planned_order_receipts'] + mrpOrders[weekDataMrpIndex - 1]['on_hand'] - weekDataMrp['gross_requirements']
         
 
         weekDataMrpIndex += 1
  
+
+    # =================================================================================================
+    # if on_hand < 0:
+    weekDataMrpIndex = 0
+
+    
+    for weekDataMrp in mrpOrders:
+        if weekDataMrp['on_hand'] < 0:
+            tmpPlannedOrderReceipts = storageElementChild['units_per_batch']
+            tmpOnHand = mrpOrders[weekDataMrpIndex - 1]['on_hand'] + tmpPlannedOrderReceipts - weekDataMrp['gross_requirements']
+            if tmpOnHand < 0:
+                mrpOrders[weekDataMrpIndex - storageElementChild['waiting_time_in_weeks']]['planned_order_releases'] = storageElementChild['units_per_batch']
+                mrpOrders[weekDataMrpIndex]['planned_order_receipts'] = tmpPlannedOrderReceipts
+            weekDataMrp['on_hand'] = tmpOnHand
+
+        weekDataMrpIndex += 1
+
     
     with open(mrpObjectNameChild + '.json', 'w') as f:
         json.dump(mrpOrders, f, indent=2)
