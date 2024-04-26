@@ -15,7 +15,7 @@
     "scheduled_receipts": 0,
     "on_hand": 0,
     "net_requirements": 0,
-    "planned_order_releases": 120,
+    "planned_order_releases": 0,
     "planned_order_receipts": 0
   },
   {
@@ -33,7 +33,7 @@
     "scheduled_receipts": 0,
     "on_hand": 0,
     "net_requirements": 0,
-    "planned_order_releases": 120,
+    "planned_order_releases": 0,
     "planned_order_receipts": 0
   },
   {

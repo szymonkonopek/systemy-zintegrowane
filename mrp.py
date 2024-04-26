@@ -41,6 +41,8 @@ def mrp(storageElementParentName, mrpObjectNameChild):
     else:
         mrpParentOrders = read_json_file('./mrp/output/' + storageElementParentName + '.json')
 
+    ## SETTING GROSS REQUIREMENTS
+
     if currentLevel == 1:
         for weekDataGhp in ghpOrders:
 
@@ -58,7 +60,23 @@ def mrp(storageElementParentName, mrpObjectNameChild):
                     mrpIndex = 0
                 mrpOrders[mrpIndex]["gross_requirements"] = (int(weekDataMrp["planned_order_releases"]) * int(storageElementChild['required_elements']))
         
-    weekDataMrpIndex = 0
+
+
+    # SETTING PLANNED ORDER REALISES
+
+    # mrpOrdersIndex = 0
+    
+    # for weekDataMrp in mrpOrders:
+    #     if weekDataMrp["gross_requirements"] != 0:
+    #         plannedOrderReleasesIndex = mrpOrdersIndex - storageElementChild['waiting_time_in_weeks']
+    #         if plannedOrderReleasesIndex < 0:
+    #             plannedOrderReleasesIndex = 0
+    #         mrpOrders[plannedOrderReleasesIndex]["planned_order_releases"] = storageElementChild['units_per_batch']
+
+        
+    #     mrpOrdersIndex += 1
+        
+            
 
 
     def calcInitialOnHand(weekDataMrp, weekDataMrpIndex):
@@ -108,6 +126,9 @@ def mrp(storageElementParentName, mrpObjectNameChild):
             return max(0, weekDataMrp['planned_order_receipts'] - weekDataMrp['on_hand'])
 
 
+    weekDataMrpIndex = 0
+
+    
     for weekDataMrp in mrpOrders:
         weekDataMrp['on_hand'] = calcInitialOnHand(weekDataMrp, weekDataMrpIndex)
 
@@ -122,17 +143,32 @@ def mrp(storageElementParentName, mrpObjectNameChild):
 
         # SCHEDULE PRODUCTION
         elif weekDataMrp['on_hand'] < 0 and isPrevProductionNotBiggerThanDemand(weekDataMrpIndex):
+
+
             # Planning production
-            weekDataMrp['planned_order_releases'] = storageElementChild['units_per_batch']
+            plannedOrderReceiptsIndex = weekDataMrpIndex - storageElementChild['waiting_time_in_weeks']
+            if plannedOrderReceiptsIndex >= 0:
+                
 
-            # Calculating when to set order receipt
-            plannedOrderReceiptsIndex = weekDataMrpIndex + storageElementChild['waiting_time_in_weeks']
-
-            # set order receipt
-            # if can set production
-            if plannedOrderReceiptsIndex < len(mrpOrders):
-                mrpOrders[plannedOrderReceiptsIndex]['planned_order_receipts'] = storageElementChild['units_per_batch']
+                mrpOrders[plannedOrderReceiptsIndex]['planned_order_releases'] = storageElementChild['units_per_batch']
+                # set order receipt
+                # if can set production
+                if plannedOrderReceiptsIndex < len(mrpOrders):
+                    weekDataMrp['planned_order_receipts'] = storageElementChild['units_per_batch']
+                    weekDataMrp['on_hand'] = weekDataMrp['planned_order_receipts'] + mrpOrders[weekDataMrpIndex - 1]['on_hand'] - weekDataMrp['gross_requirements']
+            else:
     
+                # Planning production
+                weekDataMrp['planned_order_releases'] = storageElementChild['units_per_batch']
+
+                # Calculating when to set order receipt
+                plannedOrderReceiptsIndex = weekDataMrpIndex + storageElementChild['waiting_time_in_weeks']
+
+                # set order receipt
+                # if can set production
+                if plannedOrderReceiptsIndex < len(mrpOrders):
+                    mrpOrders[plannedOrderReceiptsIndex]['planned_order_receipts'] = storageElementChild['units_per_batch']
+        
         
         # CALCULATE NET REQUIREMENTS
         weekDataMrp['net_requirements'] = calcNetRequirements(weekDataMrp)
