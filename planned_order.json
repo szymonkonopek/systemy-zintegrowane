@@ -20,26 +20,26 @@
     },
     {
       "week": 4,
-      "demand": 20,
+      "demand": 0,
       "planned_production" : 0,
       "on_hand" : 0
     },
     {
       "week": 5,
-      "demand": 25,
-      "planned_production" : 0,
-      "on_hand" : 0
+      "demand": 20,
+      "planned_production" : 28,
+      "on_hand" : 10
     },
     {
       "week": 6,
       "demand":0,
       "planned_production" : 0,
-      "on_hand" : 0
+      "on_hand" : 10
     },
     {
       "week": 7,
-      "demand": 0,
-      "planned_production" : 0,
+      "demand": 40,
+      "planned_production" : 30,
       "on_hand" : 0
     },
     {

@@ -25,7 +25,7 @@ def mrp(storageElementParentName, mrpObjectNameChild):
 
 
     ghpObject = read_json_file('planned_orders_ghp_summary.json')
-    mrpObject = read_json_file('base_mrp.json')
+    mrpObject = read_json_file('./mrp/input/' + mrpObjectNameChild +  '.json')
     
     storageElementParent = read_json_file('storage.json')[storageElementParentName]
     storageElementChild = read_json_file('storage.json')[mrpObjectNameChild]
@@ -39,20 +39,24 @@ def mrp(storageElementParentName, mrpObjectNameChild):
         ghpObject = read_json_file('planned_orders_ghp_summary.json')
         ghpOrders = ghpObject["orders"]
     else:
-        mrpParentOrders = read_json_file(storageElementParentName + '.json')
+        mrpParentOrders = read_json_file('./mrp/output/' + storageElementParentName + '.json')
 
     if currentLevel == 1:
         for weekDataGhp in ghpOrders:
 
             if weekDataGhp["planned_production"] != 0:
                 mrpIndex = weekDataGhp["week"] - waitingTimeInWeeks - 1 # for example 5 (week) - 1 (waiting_time_in_weeks) - 1 (array difference)
+                if mrpIndex < 0:
+                    mrpIndex = 0
                 mrpOrders[mrpIndex]["gross_requirements"] = (int(weekDataGhp["planned_production"]) * int(storageElementChild['required_elements']))
     else:
         for weekDataMrp in mrpParentOrders:
 
-            if weekDataMrp["gross_requirements"] != 0:
+            if weekDataMrp["planned_order_releases"] != 0:
                 mrpIndex = weekDataMrp["week"] - waitingTimeInWeeks - 1
-                mrpOrders[mrpIndex]["gross_requirements"] = (int(weekDataMrp["gross_requirements"]) * int(storageElementChild['required_elements']))
+                if mrpIndex < 0:
+                    mrpIndex = 0
+                mrpOrders[mrpIndex]["gross_requirements"] = (int(weekDataMrp["planned_order_releases"]) * int(storageElementChild['required_elements']))
         
     weekDataMrpIndex = 0
 
@@ -107,8 +111,17 @@ def mrp(storageElementParentName, mrpObjectNameChild):
     for weekDataMrp in mrpOrders:
         weekDataMrp['on_hand'] = calcInitialOnHand(weekDataMrp, weekDataMrpIndex)
 
+
+        # IF PRODUCTION MANUALY OVERWRITTEN
+        if weekDataMrp['planned_order_releases'] != 0:
+            plannedOrderReceiptsIndex = weekDataMrpIndex + storageElementChild['waiting_time_in_weeks']
+
+            if plannedOrderReceiptsIndex < len(mrpOrders):
+                mrpOrders[plannedOrderReceiptsIndex]['planned_order_receipts'] = storageElementChild['units_per_batch']
+
+
         # SCHEDULE PRODUCTION
-        if weekDataMrp['on_hand'] < 0 and isPrevProductionNotBiggerThanDemand(weekDataMrpIndex):
+        elif weekDataMrp['on_hand'] < 0 and isPrevProductionNotBiggerThanDemand(weekDataMrpIndex):
             # Planning production
             weekDataMrp['planned_order_releases'] = storageElementChild['units_per_batch']
 
@@ -188,7 +201,7 @@ def mrp(storageElementParentName, mrpObjectNameChild):
     #     weekDataMrpIndex += 1
 
     
-    with open(mrpObjectNameChild + '.json', 'w') as f:
+    with open('./mrp/output/' + mrpObjectNameChild + '.json', 'w') as f:
         json.dump(mrpOrders, f, indent=2)
     
     # jsonFile = read_json_file('mrp.json')

@@ -1,4 +1,5 @@
-[
+{
+  "orders": [
   {
     "week": 1,
     "gross_requirements": 0,
@@ -10,37 +11,37 @@
   },
   {
     "week": 2,
-    "gross_requirements": 20,
+    "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -20,
-    "net_requirements": 20,
-    "planned_order_releases": 30,
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 120,
     "planned_order_receipts": 0
   },
   {
     "week": 3,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -20,
-    "net_requirements": 20,
+    "on_hand": 0,
+    "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
   },
   {
     "week": 4,
-    "gross_requirements": 23,
+    "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -13,
-    "net_requirements": 43,
-    "planned_order_releases": 30,
-    "planned_order_receipts": 30
+    "on_hand": 0,
+    "net_requirements": 0,
+    "planned_order_releases": 120,
+    "planned_order_receipts": 0
   },
   {
     "week": 5,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -13,
-    "net_requirements": 13,
+    "on_hand": 0,
+    "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
   },
@@ -48,16 +49,16 @@
     "week": 6,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 17,
-    "net_requirements": 13,
+    "on_hand": 0,
+    "net_requirements": 0,
     "planned_order_releases": 0,
-    "planned_order_receipts": 30
+    "planned_order_receipts": 0
   },
   {
     "week": 7,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 17,
+    "on_hand": 0,
     "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
@@ -66,7 +67,7 @@
     "week": 8,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 17,
+    "on_hand": 0,
     "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
@@ -75,7 +76,7 @@
     "week": 9,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 17,
+    "on_hand": 0,
     "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
@@ -84,9 +85,10 @@
     "week": 10,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 17,
+    "on_hand": 0,
     "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
   }
 ]
+}
