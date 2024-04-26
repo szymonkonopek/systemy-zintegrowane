@@ -36,61 +36,48 @@ def prepare_table_data(json_data, production_data_map):
         return [{'Production Data': attr, **values} for attr, values in data_by_attribute.items()]
     return []
 
-def createDash():
-    planned_order_data = read_json_file('planned_order.json')
-    planned_orders_ghp_summary_data = read_json_file('planned_orders_ghp_summary.json')
-    padding_data = read_json_file('padding.json')
+def create_table(file_name, map_name, table_name, editable):
+    json_data = read_json_file(file_name)
     
-    # Przekazujemy production_data do funkcji prepare_table_data
-    data_rows_planned_order = prepare_table_data(planned_order_data, production_data_ghp_map)
-    data_rows_planned_orders_ghp_summary = prepare_table_data(planned_orders_ghp_summary_data, production_data_ghp_map)
-    data_rows_padding = prepare_table_data(padding_data, production_data_map)
+    data_rows = prepare_table_data(json_data, map_name)
 
     columns = [{'name': '', 'id': 'Production Data'}] + \
               [{'name': f'Week {i}', 'id': f'Week {i}'} for i in range(1, 11)]
 
-    app.layout = html.Div([
-        html.H1("Tabelki z danymi produkcji"),
+    table_id = file_name.replace('.json', '') + '_table'
+    div_id = file_name.replace('.json', '') + '_div'
+
+    # Stwórz oddzielny kontener dla tabeli i wyników
+    table_container = html.Div([
+        html.H1(table_name),
         dash_table.DataTable(
-            id='table-planned-order',
+            id=table_id,
             columns=columns,
-            data=data_rows_planned_order,
-            editable=True
+            data=data_rows,
+            editable=editable
         ),
-        html.H1("Tabelka podsumowania GHP"),
-        dash_table.DataTable(
-            id='table-planned-orders-ghp-summary',
-            columns=columns,
-            data=data_rows_planned_orders_ghp_summary,
-            editable=True
-        ),
-        html.H1("Dodatkowa Tabelka z Padding Data"),
-        dash_table.DataTable(
-            id='table-padding-data',
-            columns=columns,
-            data=data_rows_padding,
-            editable=True
-        ),
-        html.Div(id='output')
+        html.Div(id='output_' + div_id)
     ])
-
+    
     @app.callback(
-        Output('output', 'children'),
-        [Input('table-planned-order', 'data'), Input('table-planned-orders-ghp-summary', 'data'), Input('table-padding-data', 'data')]
+        Output('output_' + div_id, 'children'),
+        [Input(table_id, 'data')]
     )
-    def update_output(rows_planned_order, rows_planned_orders_ghp_summary, rows_padding):
-        df1 = pd.DataFrame(rows_planned_order)
-        df2 = pd.DataFrame(rows_planned_orders_ghp_summary)
-        df3 = pd.DataFrame(rows_padding)
+    def update_output(rows):
+        df1 = pd.DataFrame(rows)
         return html.Div([
-            html.H3('Dane z tabeli planowania:'),
-            html.Pre(df1.to_json(indent=2)),
-            html.H3('Dane z tabeli GHP:'),
-            html.Pre(df2.to_json(indent=2)),
-            html.H3('Dane z tabeli Padding:'),
-            html.Pre(df3.to_json(indent=2))
+            html.H3('Dane:' + table_id),
+            html.Pre(df1.to_json(indent=2))
         ])
+    
+    return table_container
 
-if __name__ == '__main__':
-    createDash()
-    app.run_server(debug=True)
+    
+def runDashApp():
+    app.layout = html.Div([
+    create_table("planned_order.json", production_data_ghp_map, "Initial GHP Data:", True),
+    create_table("planned_orders_ghp_summary.json", production_data_ghp_map, "Final GHP structure:", True),
+    create_table("padding.json", production_data_map, "MRP Data: padding", True)
+    ])
+    
+    app.run_server(debug=True)    
