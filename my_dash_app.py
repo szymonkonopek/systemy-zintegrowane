@@ -4,6 +4,7 @@ from dash import html, dcc, dash_table
 from dash.dependencies import Input, Output
 import pandas as pd
 from dictionary import *
+from collections import OrderedDict
 
 app = dash.Dash(__name__)
 
@@ -22,17 +23,17 @@ def prepare_table_data(json_data, production_data_map):
     if json_data:
         if 'orders' in json_data:
             attributes = set(json_data['orders'][0].keys()) - {'week'}
-            data_by_attribute = {
-                attribute: {f'Week {order["week"]}': order[attribute] for order in json_data['orders']}
-                for attribute in attributes
-            }
+            data_by_attribute = OrderedDict({
+                production_data_map[attr]: {f'Week {order["week"]}': order[attr] for order in json_data['orders'] if attr in order}
+                for attr in production_data_map if attr in attributes
+            })
         else:
             attributes = set(json_data[0].keys()) - {'week'}
-            data_by_attribute = {
-                attribute: {f'Week {entry["week"]}': entry[attribute] for entry in json_data}
-                for attribute in attributes
-            }
-        return [{'Production Data': production_data_map.get(attr, attr), **values} for attr, values in data_by_attribute.items()]
+            data_by_attribute = OrderedDict({
+                production_data_map[attr]: {f'Week {entry["week"]}': entry[attr] for entry in json_data if attr in entry}
+                for attr in production_data_map if attr in attributes
+            })
+        return [{'Production Data': attr, **values} for attr, values in data_by_attribute.items()]
     return []
 
 def createDash():
@@ -41,8 +42,8 @@ def createDash():
     padding_data = read_json_file('padding.json')
     
     # Przekazujemy production_data do funkcji prepare_table_data
-    data_rows_planned_order = prepare_table_data(planned_order_data, production_data_map)
-    data_rows_planned_orders_ghp_summary = prepare_table_data(planned_orders_ghp_summary_data, production_data_map)
+    data_rows_planned_order = prepare_table_data(planned_order_data, production_data_ghp_map)
+    data_rows_planned_orders_ghp_summary = prepare_table_data(planned_orders_ghp_summary_data, production_data_ghp_map)
     data_rows_padding = prepare_table_data(padding_data, production_data_map)
 
     columns = [{'name': '', 'id': 'Production Data'}] + \
