@@ -59,25 +59,6 @@ def mrp(storageElementParentName, mrpObjectNameChild):
                 if mrpIndex < 0:
                     mrpIndex = 0
                 mrpOrders[mrpIndex]["gross_requirements"] = (int(weekDataMrp["planned_order_releases"]) * int(storageElementChild['required_elements']))
-        
-
-
-    # SETTING PLANNED ORDER REALISES
-
-    # mrpOrdersIndex = 0
-    
-    # for weekDataMrp in mrpOrders:
-    #     if weekDataMrp["gross_requirements"] != 0:
-    #         plannedOrderReleasesIndex = mrpOrdersIndex - storageElementChild['waiting_time_in_weeks']
-    #         if plannedOrderReleasesIndex < 0:
-    #             plannedOrderReleasesIndex = 0
-    #         mrpOrders[plannedOrderReleasesIndex]["planned_order_releases"] = storageElementChild['units_per_batch']
-
-        
-    #     mrpOrdersIndex += 1
-        
-            
-
 
     def calcInitialOnHand(weekDataMrp, weekDataMrpIndex):
         prevOnHandIndex = weekDataMrpIndex - 1
@@ -144,9 +125,9 @@ def mrp(storageElementParentName, mrpObjectNameChild):
         # SCHEDULE PRODUCTION
         elif weekDataMrp['on_hand'] < 0 and isPrevProductionNotBiggerThanDemand(weekDataMrpIndex):
 
-
-            # Planning production
             plannedOrderReceiptsIndex = weekDataMrpIndex - storageElementChild['waiting_time_in_weeks']
+
+            # Case 1: Production can be scheduled in the past and automatically set in current week
             if plannedOrderReceiptsIndex >= 0:
                 
 
@@ -156,9 +137,10 @@ def mrp(storageElementParentName, mrpObjectNameChild):
                 if plannedOrderReceiptsIndex < len(mrpOrders):
                     weekDataMrp['planned_order_receipts'] = storageElementChild['units_per_batch']
                     weekDataMrp['on_hand'] = weekDataMrp['planned_order_receipts'] + mrpOrders[weekDataMrpIndex - 1]['on_hand'] - weekDataMrp['gross_requirements']
+            
+            # Case 2: Production can't be scheduled in the past
             else:
-    
-                # Planning production
+                
                 weekDataMrp['planned_order_releases'] = storageElementChild['units_per_batch']
 
                 # Calculating when to set order receipt
