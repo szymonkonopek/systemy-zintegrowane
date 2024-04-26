@@ -23,7 +23,7 @@
   "padding": {
     "waiting_time_in_weeks": 3,
     "initial_quantity": 22,
-    "units_per_batch": 50, 
+    "units_per_batch": 100, 
     "level": 1,
     "required_elements": 2
   },

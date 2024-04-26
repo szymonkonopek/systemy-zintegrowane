@@ -20,38 +20,38 @@
     },
     {
       "week": 4,
-      "demand": 0,
-      "planned_production": 0,
-      "on_hand": 2
-    },
-    {
-      "week": 5,
-      "demand": 0,
-      "planned_production": 0,
-      "on_hand": 2
-    },
-    {
-      "week": 6,
-      "demand": 0,
-      "planned_production": 0,
-      "on_hand": 2
-    },
-    {
-      "week": 7,
-      "demand": 0,
-      "planned_production": 0,
-      "on_hand": 2
-    },
-    {
-      "week": 8,
       "demand": 20,
       "planned_production": 18,
       "on_hand": 0
     },
     {
+      "week": 5,
+      "demand": 25,
+      "planned_production": 25,
+      "on_hand": 0
+    },
+    {
+      "week": 6,
+      "demand": 0,
+      "planned_production": 0,
+      "on_hand": 0
+    },
+    {
+      "week": 7,
+      "demand": 0,
+      "planned_production": 0,
+      "on_hand": 0
+    },
+    {
+      "week": 8,
+      "demand": 0,
+      "planned_production": 0,
+      "on_hand": 0
+    },
+    {
       "week": 9,
-      "demand": 40,
-      "planned_production": 40,
+      "demand": 0,
+      "planned_production": 0,
       "on_hand": 0
     },
     {

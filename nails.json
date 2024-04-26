@@ -1,84 +1,84 @@
 [
   {
     "week": 1,
-    "gross_requirements": 0,
+    "gross_requirements": 360,
     "scheduled_receipts": 0,
-    "on_hand": 550,
+    "on_hand": 190,
     "net_requirements": 0,
     "planned_order_releases": 0,
     "planned_order_receipts": 0
   },
   {
     "week": 2,
-    "gross_requirements": 0,
+    "gross_requirements": 500,
     "scheduled_receipts": 0,
-    "on_hand": 550,
-    "net_requirements": 0,
-    "planned_order_releases": 0,
+    "on_hand": -310,
+    "net_requirements": 310,
+    "planned_order_releases": 150,
     "planned_order_receipts": 0
   },
   {
     "week": 3,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 550,
-    "net_requirements": 0,
-    "planned_order_releases": 0,
+    "on_hand": -310,
+    "net_requirements": 310,
+    "planned_order_releases": 150,
     "planned_order_receipts": 0
   },
   {
     "week": 4,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 550,
-    "net_requirements": 0,
+    "on_hand": -160,
+    "net_requirements": 310,
     "planned_order_releases": 150,
-    "planned_order_receipts": 0
+    "planned_order_receipts": 150
   },
   {
     "week": 5,
-    "gross_requirements": 360,
+    "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": 190,
-    "net_requirements": 0,
-    "planned_order_releases": 150,
-    "planned_order_receipts": 0
+    "on_hand": -10,
+    "net_requirements": 160,
+    "planned_order_releases": 0,
+    "planned_order_receipts": 150
   },
   {
     "week": 6,
-    "gross_requirements": 800,
+    "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -460,
-    "net_requirements": 610,
-    "planned_order_releases": 150,
+    "on_hand": 140,
+    "net_requirements": 10,
+    "planned_order_releases": 0,
     "planned_order_receipts": 150
   },
   {
     "week": 7,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -310,
+    "on_hand": 140,
     "net_requirements": 0,
-    "planned_order_releases": 150,
-    "planned_order_receipts": 150
+    "planned_order_releases": 0,
+    "planned_order_receipts": 0
   },
   {
     "week": 8,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -160,
+    "on_hand": 140,
     "net_requirements": 0,
     "planned_order_releases": 0,
-    "planned_order_receipts": 150
+    "planned_order_receipts": 0
   },
   {
     "week": 9,
     "gross_requirements": 0,
     "scheduled_receipts": 0,
-    "on_hand": -10,
+    "on_hand": 140,
     "net_requirements": 0,
     "planned_order_releases": 0,
-    "planned_order_receipts": 150
+    "planned_order_receipts": 0
   },
   {
     "week": 10,
