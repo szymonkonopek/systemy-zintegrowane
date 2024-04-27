@@ -26,7 +26,6 @@ def ghp():
 
     print("\n")
     print("***************************************************")
-    print("\n")
 
     # Input storage data
     storage_data = read_json_file('storage.json')
@@ -107,7 +106,6 @@ def ghp():
     print("\n")
 
     data_pd = read_json_file("planned_orders_ghp_summary.json")
-    print('data_pd', data_pd['orders'])
     data_pd_df = pd.DataFrame(data_pd["orders"])
     transposed_df = data_pd_df.transpose()
     print("Final GHP structure:")
