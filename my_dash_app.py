@@ -35,7 +35,7 @@ def prepare_table_data(json_data, production_data_map):
             })
         return [{'Production Data': attr, **values} for attr, values in data_by_attribute.items()]
     return []
-1
+
 def prepare_storage_table_data(id, data_map):
     json_data = read_json_file('storage.json')
     
@@ -74,16 +74,26 @@ def create_table(file_name, map_name, table_name, editable):
     
     # Tutaj to jest tylko po to żeby wyświetlić jsona jak on się zmienia, ale jest to na razie nie potrzebne
     
-    # @app.callback(
-    #     Output('output_' + div_id, 'children'),
-    #     [Input(table_id, 'data')]
-    # )
+    @app.callback(
+        Output('output_' + div_id, 'children'),
+        [Input(table_id, 'data')]
+    )
     def update_output(rows):
         df1 = pd.DataFrame(rows)
+
+        # otwieram jsona
+
+        # skrypt ktory aktualzuje dane w jsonie i podmienia je z danymi z rows
+
+        # zapisuje jsona
+
+        # refresh
+
         return html.Div([
             html.H3('Dane:' + table_id),
-            html.Pre(df1.to_json(indent=2))
+            html.Pre(json.dumps(rows,indent=4))
         ])
+
     
     return table_container
 
@@ -115,17 +125,25 @@ def create_storage_table(id, map_name, editable):
 def runDashApp():
     app.layout = html.Div([
     create_table("planned_order.json", production_data_ghp_map, "Initial GHP Data:", True),
+    html.Button(
+        ['Update'],
+        id='btn1'
+    ),
     create_storage_table("chairs", storage_ghp_data_map, True),
     create_table("planned_orders_ghp_summary.json", production_data_ghp_map, "Final GHP structure:", True),
     create_storage_table("chairs", storage_ghp_data_map, True),
-    create_table("padding.json", production_data_map, "MRP Data: padding", True),
+    create_table("mrp/output/padding.json", production_data_map, "MRP Data: padding", True),
     create_storage_table("padding", storage_data_map, True),
-    create_table("frame.json", production_data_map, "MRP Data: frame", True),
+    create_table("mrp/output/frame.json", production_data_map, "MRP Data: frame", True),
     create_storage_table("frame", storage_data_map, True),
-    create_table("nails.json", production_data_map, "MRP Data: nails", True),
+    create_table("mrp/output/nails.json", production_data_map, "MRP Data: nails", True),
     create_storage_table("frame", storage_data_map, True),
-    create_table("wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", True),
+    create_table("mrp/output/wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", True),
     create_storage_table("wooden_construction_elements", storage_data_map, True),
+    html.Button(
+        ['Update'],
+        id='btn2'
+    ),
     ])
     
     app.run_server(debug=True)    
