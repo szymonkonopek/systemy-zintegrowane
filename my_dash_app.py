@@ -5,6 +5,8 @@ from dash.dependencies import Input, Output
 import pandas as pd
 from dictionary import *
 from collections import OrderedDict
+import dash_bootstrap_components as dbc
+
 import ghp
 import mrp
 
@@ -14,7 +16,7 @@ import sys
 
 
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
+app = dash.Dash(__name__, suppress_callback_exceptions=True,     external_stylesheets=[dbc.themes.BOOTSTRAP])
 def read_json_file(file_path):
     try:
         with open(file_path, 'r') as file:
