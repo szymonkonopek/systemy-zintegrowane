@@ -8,6 +8,12 @@ from collections import OrderedDict
 import ghp
 import mrp
 
+
+import os
+import sys
+
+
+
 app = dash.Dash(__name__, suppress_callback_exceptions=True)
 def read_json_file(file_path):
     try:
@@ -124,10 +130,7 @@ def create_table(file_name, map_name, table_name, editable, storage_id, storage_
                 mrp.mrp('chairs', 'padding')
             except Exception as e:
                 print(f"Error while updating JSON file: {e}")
-            return html.Div([
-                html.H3('Zaktualizowane dane:'),
-                html.Pre(production_data)
-            ])
+
         elif storage_table_id in triggered_id:
             storage_data = json.dumps(storage_rows, indent=4)
             updated_storage_data = {}
@@ -168,22 +171,38 @@ def create_table(file_name, map_name, table_name, editable, storage_id, storage_
             mrp.mrp('chairs', 'frame')
             mrp.mrp('frame', 'wooden_construction_elements')
             mrp.mrp('frame', 'nails')
-            mrp.mrp('chairs', 'padding')    
-            return html.Div([
-                html.H3('Zaktualizowane dane:'),
-                html.Pre(json.dumps(storage_data, indent=4))
-            ])
+            mrp.mrp('chairs', 'padding')
+
+        
 
     return table_container
+
     
 def runDashApp():
     app.layout = html.Div([
+    html.Button('🔄 RELOAD 🔄', id='button'),
+    html.Div(id='output-div'),
     create_table("planned_order.json", production_data_ghp_map, "Initial GHP Data:", True, "chairs", storage_ghp_data_map),
     create_table("planned_orders_ghp_summary.json", production_data_ghp_map, "Final GHP structure:", True, "chairs2", storage_ghp_data_map),
     create_table("mrp/output/padding.json", production_data_map, "MRP Data: padding", False, "padding", storage_data_map),
     create_table("mrp/output/frame.json", production_data_map, "MRP Data: frame", False, "frame", storage_data_map),
     create_table("mrp/output/nails.json", production_data_map, "MRP Data: nails", False, "frame2", storage_data_map),
-    create_table("mrp/output/wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", False, "wooden_construction_elements", storage_data_map)
+    create_table("mrp/output/wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", False, "wooden_construction_elements", storage_data_map),
+
+
+
     ])
+
+    @app.callback(
+        Output('output-div', 'children'),
+        [Input('button', 'n_clicks')]
+    )
+    def update_output(n_clicks):
+        if n_clicks is not None:
+            print('reload...')
+            os._exit(0)
+        return None
+
+
     
-    app.run_server(debug=True)    
+    app.run_server(debug=True)
