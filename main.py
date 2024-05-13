@@ -1,6 +1,10 @@
-import pandas as pd
 import ghp
 import mrp
+import my_dash_app
+from dictionary import *
+import time
+
+
 # code goes here
 
 ghp.ghp()
@@ -9,3 +13,7 @@ mrp.mrp('frame', 'wooden_construction_elements')
 mrp.mrp('frame', 'nails')
 mrp.mrp('chairs', 'padding')
 # print table using pandas
+
+my_dash_app.runDashApp()
+
+
