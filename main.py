@@ -1,4 +1,3 @@
-import pandas as pd
 import ghp
 import mrp
 import my_dash_app

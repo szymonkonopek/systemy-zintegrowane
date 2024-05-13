@@ -1,13 +1,14 @@
 import json
 import dash
-from dash import html, dcc, dash_table
+from dash import html, dcc, dash_table, callback_context
 from dash.dependencies import Input, Output
 import pandas as pd
 from dictionary import *
 from collections import OrderedDict
+import ghp
+import mrp
 
-app = dash.Dash(__name__)
-
+app = dash.Dash(__name__, suppress_callback_exceptions=True)
 def read_json_file(file_path):
     try:
         with open(file_path, 'r') as file:
@@ -37,8 +38,11 @@ def prepare_table_data(json_data, production_data_map):
     return []
 
 def prepare_storage_table_data(id, data_map):
+    if id == 'chairs2':
+        id = 'chairs'
+    elif id == 'frame2':
+        id = 'frame'    
     json_data = read_json_file('storage.json')
-    
     if json_data and id in json_data:
         storage_data = json_data[id]
         data = []
@@ -50,100 +54,136 @@ def prepare_storage_table_data(id, data_map):
         print(f"Error: Data for ID '{id}' not found in storage.")
         return []
 
-def create_table(file_name, map_name, table_name, editable):
+def create_table(file_name, map_name, table_name, editable, storage_id, storage_map_name):
     json_data = read_json_file(file_name)
-    
     data_rows = prepare_table_data(json_data, map_name)
+    storage_data_rows = prepare_storage_table_data(storage_id, storage_map_name)
 
     columns = [{'name': '', 'id': 'Production Data'}] + \
               [{'name': f'Week {i}', 'id': f'Week {i}'} for i in range(1, 11)]
+    storage_columns = [{'name': '', 'id': 'Attribute'}, {'name': 'Value', 'id': 'Value'}]
 
-    table_id = file_name.replace('.json', '') + '_table'
+    production_table_id = file_name.replace('.json', '') + '_table'
+    storage_table_id = f"{storage_id}_storage_table"
     div_id = file_name.replace('.json', '') + '_div'
 
     table_container = html.Div([
         html.H1(table_name),
         dash_table.DataTable(
-            id=table_id,
+            id=production_table_id,
             columns=columns,
             data=data_rows,
             editable=editable
         ),
+        dash_table.DataTable(
+            id=storage_table_id,
+            columns=storage_columns,
+            data=storage_data_rows,
+            style_header={'display': 'none'},
+            style_data={'width': 135},
+            fill_width=False,
+            css=[{'selector': 'tr:first-child', 'rule': 'display: none'}],
+            editable=True
+        ),
         html.Div(id='output_' + div_id),
     ])
-    
-    # Tutaj to jest tylko po to żeby wyświetlić jsona jak on się zmienia, ale jest to na razie nie potrzebne
-    
     @app.callback(
         Output('output_' + div_id, 'children'),
-        [Input(table_id, 'data')]
+        [Input(production_table_id, 'data'),
+        Input(storage_table_id, 'data')]
     )
-    def update_output(rows):
-        df1 = pd.DataFrame(rows)
+    def update_output(production_rows, storage_rows):
+        ctx = callback_context
+        triggered_id = ctx.triggered[0]['prop_id'].split('.')[0]
 
-        # otwieram jsona
+        if not production_rows and not storage_rows:
+            return html.Div("Brak danych do wyświetlenia")
 
-        # skrypt ktory aktualzuje dane w jsonie i podmienia je z danymi z rows
-
-        # zapisuje jsona
-
-        # refresh
-
-        return html.Div([
-            html.H3('Dane:' + table_id),
-            html.Pre(json.dumps(rows,indent=4))
-        ])
-
-    
-    return table_container
-
-def create_storage_table(id, map_name, editable):
-    table_data = prepare_storage_table_data(id, map_name)
-
-    columns = [{'name': '', 'id': 'Attribute'},
-               {'name': 'Value', 'id': 'Value'}]
-
-    table_id = f"{id}_storage_table"
-
-    table_container = html.Div([
-        dash_table.DataTable(
-            id=table_id,
-            columns=columns,
-            data=table_data,
-            style_header={'display': 'none'},
-            style_data={
-            'width': 135,
-            },
-            fill_width=False,
-            css=[ { 'selector': 'tr:first-child', 'rule': 'display: none'},],
+        if production_table_id in triggered_id:
+            production_data = json.dumps(production_rows, indent=4)
+            orders = []
+            for week in range(1, 11):
+                order = {
+                    "week": week,
+                    "demand": int(production_rows[0][f"Week {week}"]),
+                    "planned_production": int(production_rows[1][f"Week {week}"]),
+                    "on_hand": int(production_rows[2][f"Week {week}"])
+                }
+                orders.append(order)
+            new_data = {"orders": orders}
             
-        ),
-    ])
-    
+            file_path = file_name
+            try:
+                with open(file_path, 'w') as file:
+                    json.dump(new_data, file, indent=4)
+                print(f"Updated JSON file '{file_path}' with new data.")
+                ghp.ghp()
+                mrp.mrp('chairs', 'frame')
+                mrp.mrp('frame', 'wooden_construction_elements')
+                mrp.mrp('frame', 'nails')
+                mrp.mrp('chairs', 'padding')
+            except Exception as e:
+                print(f"Error while updating JSON file: {e}")
+            return html.Div([
+                html.H3('Zaktualizowane dane:'),
+                html.Pre(production_data)
+            ])
+        elif storage_table_id in triggered_id:
+            storage_data = json.dumps(storage_rows, indent=4)
+            updated_storage_data = {}
+            for row in storage_rows:
+                attribute = row['Attribute']
+                value = row['Value']
+                if attribute == "Waiting Time in Weeks":
+                    key = "waiting_time_in_weeks"
+                elif attribute == "Initial Quantity":
+                    key = "initial_quantity"
+                elif attribute == "Units per Batch":
+                    key = "units_per_batch"
+                elif attribute == "Level":
+                    key = "level"     
+                else:
+                    key = None
+                
+                if key:
+                    updated_storage_data[key] = int(value)
+
+            with open('storage.json', 'r') as file:
+                storage_data = json.load(file)
+            
+            if storage_id in storage_data:
+                if 'chairs2' in storage_id:
+                    new_id = 'chairs'
+                elif 'frame2' in storage_id:
+                    new_id = 'frame'
+                else:
+                    new_id = storage_id
+                for key, value in updated_storage_data.items():
+                    if key in storage_data[new_id]:
+                        storage_data[new_id][key] = value
+            
+            with open('storage.json', 'w') as file:
+                json.dump(storage_data, file, indent=4)
+            ghp.ghp()
+            mrp.mrp('chairs', 'frame')
+            mrp.mrp('frame', 'wooden_construction_elements')
+            mrp.mrp('frame', 'nails')
+            mrp.mrp('chairs', 'padding')    
+            return html.Div([
+                html.H3('Zaktualizowane dane:'),
+                html.Pre(json.dumps(storage_data, indent=4))
+            ])
+
     return table_container
     
 def runDashApp():
     app.layout = html.Div([
-    create_table("planned_order.json", production_data_ghp_map, "Initial GHP Data:", True),
-    html.Button(
-        ['Update'],
-        id='btn1'
-    ),
-    create_storage_table("chairs", storage_ghp_data_map, True),
-    create_table("planned_orders_ghp_summary.json", production_data_ghp_map, "Final GHP structure:", True),
-    create_storage_table("chairs", storage_ghp_data_map, True),
-    create_table("mrp/output/padding.json", production_data_map, "MRP Data: padding", True),
-    create_storage_table("padding", storage_data_map, True),
-    create_table("mrp/output/frame.json", production_data_map, "MRP Data: frame", True),
-    create_storage_table("frame", storage_data_map, True),
-    create_table("mrp/output/nails.json", production_data_map, "MRP Data: nails", True),
-    create_storage_table("frame", storage_data_map, True),
-    create_table("mrp/output/wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", True),
-    create_storage_table("wooden_construction_elements", storage_data_map, True),
-    html.Button(
-        ['Update'],
-        id='btn2'
-    ),
+    create_table("planned_order.json", production_data_ghp_map, "Initial GHP Data:", True, "chairs", storage_ghp_data_map),
+    create_table("planned_orders_ghp_summary.json", production_data_ghp_map, "Final GHP structure:", True, "chairs2", storage_ghp_data_map),
+    create_table("mrp/output/padding.json", production_data_map, "MRP Data: padding", False, "padding", storage_data_map),
+    create_table("mrp/output/frame.json", production_data_map, "MRP Data: frame", False, "frame", storage_data_map),
+    create_table("mrp/output/nails.json", production_data_map, "MRP Data: nails", False, "frame2", storage_data_map),
+    create_table("mrp/output/wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", False, "wooden_construction_elements", storage_data_map)
     ])
     
     app.run_server(debug=True)    
