@@ -188,7 +188,7 @@ def runDashApp():
     create_table("planned_orders_ghp_summary.json", production_data_ghp_map, "Final GHP structure:", True, "chairs2", storage_ghp_data_map),
     create_table("mrp/output/padding.json", production_data_map, "MRP Data: padding", False, "padding", storage_data_map),
     create_table("mrp/output/frame.json", production_data_map, "MRP Data: frame", False, "frame", storage_data_map),
-    create_table("mrp/output/nails.json", production_data_map, "MRP Data: nails", False, "frame2", storage_data_map),
+    create_table("mrp/output/nails.json", production_data_map, "MRP Data: nails", False, "nails", storage_data_map),
     create_table("mrp/output/wooden_construction_elements.json", production_data_map, "MRP Data: wooden construction elements", False, "wooden_construction_elements", storage_data_map),
 
 
